@@ -5,19 +5,19 @@ import (
 )
 
 // Teacher represents the domain model for a teacher
-type Student struct {
+type Teacher struct {
 	Name       string `json:"name" structs:"name"`
 	Age        string `json:"age" structs:"age"`
 	Department string `json:"department" structs:"department"`
-	Grade     int     `json:"grade" structs:"grade"`
+	Salary     int    `json:"salary" structs:"salary"`
 }
 
 // Map converts struct into map
-func (s *Student) Map() map[string]interface{} {
-	return structs.Map(s)
+func (t *Teacher) Map() map[string]interface{} {
+	return structs.Map(t)
 }
 
 // Names returns the list of fields
-func (s *Student) Names() []string {
-	return structs.Names(s)
+func (t *Teacher) Names() []string {
+	return structs.Names(t)
 }

@@ -8,7 +8,7 @@ type Student struct {
 	Name       string `json:"name" structs:"name"`
 	Age        string `json:"age" structs:"age"`
 	Department string `json:"department" structs:"department"`
-	Grade     int     `json:"grade" structs:"grade"`
+	Grade      int    `json:"grade" structs:"grade"`
 }
 
 func (s *Student) Map() map[string]interface{} {

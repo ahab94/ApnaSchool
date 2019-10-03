@@ -1,4 +1,4 @@
-export PROJECT = ApnaSchool
+export PROJECT = apnaschool
 IMPORT_PATH := github.com/ahab94/${PROJECT}
 
 # all non-windows environments

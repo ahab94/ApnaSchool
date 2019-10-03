@@ -15,18 +15,14 @@ tmp/dev_image_id:
 	@docker build -t ${DEV_IMAGE} -f Dockerfile.dev .
 	@docker inspect -f "{{ .ID }}" ${DEV_IMAGE} > tmp/dev_image_id
 
-.PHONY: install
-install: build
-	${DOCKRUN} go install
-
 .PHONY: format
-format: install
-	${DOCKRUN} bash ./scripts/format.sh
+format: prepare
+	${DOCKRUN} bash /opt/format.sh
 
 .PHONY: check
-check: format
-	${DOCKRUN} bash ./scripts/check.sh
+check: prepare
+	${DOCKRUN} bash /opt/check.sh
 
 .PHONY: todo
-todo: check
-	${DOCKRUN} bash ./scripts/todo.sh
+todo: prepare
+	${DOCKRUN} bash /opt/todo.sh

@@ -1,12 +1,32 @@
-.PHONY: all format check todo
+include Makefile.variables
 
-all: format check todo
+## prefix before other make targets to run in your local dev environment
+local: | quiet
+	@$(eval DOCKRUN= )
+	@mkdir -p tmp
+	@touch tmp/dev_image_id
+quiet: # this is silly but shuts up 'Nothing to be done for `local`'
+	@:
 
-format:
-	@sh scripts/format.sh
+prepare: tmp/dev_image_id
+tmp/dev_image_id:
+	@mkdir -p tmp
+	@docker rmi -f ${DEV_IMAGE} > /dev/null 2>&1 || true
+	@docker build -t ${DEV_IMAGE} -f Dockerfile.dev .
+	@docker inspect -f "{{ .ID }}" ${DEV_IMAGE} > tmp/dev_image_id
 
-check:
-	@sh scripts/check.sh
+.PHONY: install
+install: build
+	${DOCKRUN} go install
 
-todo:
-	@sh scripts/todo.sh
+.PHONY: format
+format: install
+	${DOCKRUN} bash ./scripts/format.sh
+
+.PHONY: check
+check: format
+	${DOCKRUN} bash ./scripts/check.sh
+
+.PHONY: todo
+todo: check
+	${DOCKRUN} bash ./scripts/todo.sh

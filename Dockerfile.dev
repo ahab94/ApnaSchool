@@ -8,7 +8,7 @@ WORKDIR /apnaschool/src/github.com/ahab94/apnaschool
 
 COPY scripts/. /opt/
 
-RUN curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin 1.19.1
+RUN curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.19.1
 
 RUN apt install gcc
 

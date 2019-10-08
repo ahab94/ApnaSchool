@@ -15,8 +15,9 @@ import (
 )
 
 const (
-	dbName     = "ApnaSchool"
-	collection = "Student"
+	dbName        = "ApnaSchool"
+	stdCollection = "Student"
+	tchCollection = "Teacher"
 )
 
 func init() {
@@ -44,7 +45,7 @@ func (c *client) AddStudent(student *models.Student) (string, error) {
 	}
 
 	student.ID = uuid.NewV4().String()
-	collection := c.conn.Database(dbName).Collection(collection)
+	collection := c.conn.Database(dbName).Collection(stdCollection)
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	_, err := collection.InsertOne(ctx, student)
 	if err != nil {
@@ -56,7 +57,7 @@ func (c *client) AddStudent(student *models.Student) (string, error) {
 
 func (c *client) GetStudent(id string) (*models.Student, error) {
 	var stu *models.Student
-	collection := c.conn.Database(dbName).Collection(collection)
+	collection := c.conn.Database(dbName).Collection(stdCollection)
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	err := collection.FindOne(ctx, bson.M{"_id": id}).Decode(&stu)
 	if err != nil {
@@ -67,7 +68,7 @@ func (c *client) GetStudent(id string) (*models.Student, error) {
 }
 
 func (c *client) DeleteStudent(id string) error {
-	collection := c.conn.Database(dbName).Collection(collection)
+	collection := c.conn.Database(dbName).Collection(stdCollection)
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	_, err := collection.DeleteOne(ctx, bson.M{"_id": id})
 	if err != nil {
@@ -78,8 +79,57 @@ func (c *client) DeleteStudent(id string) error {
 }
 
 func (c *client) UpdateStudent(student *models.Student) error {
-	collection := c.conn.Database(dbName).Collection(collection)
+	collection := c.conn.Database(dbName).Collection(stdCollection)
 	_, err := collection.UpdateOne(context.TODO(), bson.M{"_id": student.ID}, bson.M{"$set": student})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *client) AddTeacher(teacher *models.Teacher) (string, error) {
+	if teacher.ID != "" {
+		return "", errors.New("id is not empty")
+	}
+
+	teacher.ID = uuid.NewV4().String()
+	collection := c.conn.Database(dbName).Collection(tchCollection)
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	_, err := collection.InsertOne(ctx, teacher)
+	if err != nil {
+		return "", err
+	}
+
+	return teacher.ID, nil
+}
+
+func (c *client) GetTeacher(id string) (*models.Teacher, error) {
+	var tch *models.Teacher
+	collection := c.conn.Database(dbName).Collection(tchCollection)
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	err := collection.FindOne(ctx, bson.M{"_id": id}).Decode(&tch)
+	if err != nil {
+		return nil, err
+	}
+
+	return tch, nil
+}
+
+func (c *client) DeleteTeacher(id string) error {
+	collection := c.conn.Database(dbName).Collection(tchCollection)
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	_, err := collection.DeleteOne(ctx, bson.M{"_id": id})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *client) UpdateTeacher(teacher *models.Teacher) error {
+	collection := c.conn.Database(dbName).Collection(tchCollection)
+	_, err := collection.UpdateOne(context.TODO(), bson.M{"_id": teacher.ID}, bson.M{"$set": teacher})
 	if err != nil {
 		return err
 	}

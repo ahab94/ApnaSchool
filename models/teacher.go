@@ -5,10 +5,11 @@ import (
 )
 
 type Teacher struct {
-	Name       string `json:"name" structs:"name"`
-	Age        string `json:"age" structs:"age"`
-	Department string `json:"department" structs:"department"`
-	Salary     int    `json:"salary" structs:"salary"`
+	ID         string `json:"id" structs:"id" bson:"_id"`
+	Name       string `json:"name" structs:"name" bson:"name"`
+	Age        string `json:"age" structs:"age" bson:"age"`
+	Department string `json:"department" structs:"department" bson:"department"`
+	Salary     int    `json:"salary" structs:"salary" bson:"salary"`
 }
 
 func (t *Teacher) Map() map[string]interface{} {
@@ -16,5 +17,17 @@ func (t *Teacher) Map() map[string]interface{} {
 }
 
 func (t *Teacher) Names() []string {
-	return structs.Names(t)
+	fields := structs.Fields(t)
+	names := make([]string, len(fields))
+
+	for i, field := range fields {
+		name := field.Name()
+		tagName := field.Tag(structs.DefaultTagName)
+		if tagName != "" {
+			name = tagName
+		}
+		names[i] = name
+	}
+
+	return names
 }

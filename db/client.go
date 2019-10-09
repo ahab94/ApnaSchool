@@ -11,6 +11,10 @@ type DataStore interface {
 	GetStudent(id string) (*models.Student, error)
 	DeleteStudent(id string) error
 	UpdateStudent(student *models.Student) error
+	AddTeacher(teacher *models.Teacher) (string, error)
+	GetTeacher(id string) (*models.Teacher, error)
+	DeleteTeacher(id string) error
+	UpdateTeacher(teacher *models.Teacher) error
 }
 
 type Option struct {

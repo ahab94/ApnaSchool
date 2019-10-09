@@ -5,11 +5,11 @@ import (
 )
 
 type Student struct {
-	ID         string `json:"id" structs:"id"  bson:"_id"`
-	Name       string `json:"name" structs:"name"  bson:"name"`
-	Age        string `json:"age" structs:"age" bson:"age"`
-	Department string `json:"department" structs:"department" bson:"department"`
-	Grade      int    `json:"grade" structs:"grade" bson:"grade"`
+	ID         string `json:"id" structs:"id"  bson:"_id" db:"id"`
+	Name       string `json:"name" structs:"name"  bson:"name" db:"name"`
+	Age        string `json:"age" structs:"age" bson:"age" db:"age"`
+	Department string `json:"department" structs:"department" bson:"department" db:"department"`
+	Grade      int    `json:"grade" structs:"grade" bson:"grade" db:"grade"`
 }
 
 func (s *Student) Map() map[string]interface{} {

@@ -1,5 +1,6 @@
 include Makefile.variables
 
+.PHONY: format todo test check prepare
 ## prefix before other make targets to run in your local dev environment
 local: | quiet
 	@$(eval DOCKRUN= )
@@ -15,14 +16,14 @@ tmp/dev_image_id:
 	@docker build -t ${DEV_IMAGE} -f Dockerfile.dev .
 	@docker inspect -f "{{ .ID }}" ${DEV_IMAGE} > tmp/dev_image_id
 
-.PHONY: format
 format: prepare
 	${DOCKRUN} bash /opt/format.sh
 
-.PHONY: check
 check: prepare
 	${DOCKRUN} bash /opt/check.sh
 
-.PHONY: todo
 todo: prepare
 	${DOCKRUN} bash /opt/todo.sh
+
+test: prepare format check
+	${DOCKRUN} bash /opt/test.sh

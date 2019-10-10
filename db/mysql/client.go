@@ -2,9 +2,11 @@ package mysql
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"strings"
+	"github.com/pkg/errors"
 
 	"github.com/ahab94/ApnaSchool/db"
 	"github.com/ahab94/ApnaSchool/models"
@@ -41,7 +43,7 @@ func formatDSN() string {
 func NewClient(conf db.Option) (db.DataStore, error) {
 	cli, err := sqlx.Connect("mysql", formatDSN())
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to connect to db")
 	}
 	return &client{db: cli}, nil
 }
@@ -51,7 +53,7 @@ func (c *client) AddStudent(student *models.Student) (string, error) {
 	if _, err := c.db.NamedExec(fmt.Sprintf(`INSERT INTO %s (%s) VALUES(%s)`, studentTableName, strings.Join(student.Names(), ","), strings.Join(mkPlaceHolder(names, ":", func(name, prefix string) string {
 		return prefix + name
 	}), ",")), student); err != nil {
-		return "", err
+		return "", errors.Wrap(err, "failed to add student")
 	}
 
 	return "", nil
@@ -60,7 +62,7 @@ func (c *client) AddStudent(student *models.Student) (string, error) {
 func (c *client) GetStudent(id string) (*models.Student, error) {
 	var stu models.Student
 	if err := c.db.Get(&stu, fmt.Sprintf(`SELECT * FROM %s WHERE id = '%s'`, studentTableName, id)); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to get student")
 	}
 
 	return &stu, nil
@@ -71,7 +73,7 @@ func (c *client) UpdateStudent(student *models.Student) error {
 	if _, err := c.db.NamedExec(fmt.Sprintf(`UPDATE %s SET %s`, studentTableName, strings.Join(mkPlaceHolder(names, "=:", func(name, prefix string) string {
 		return name + prefix + name
 	}), ",")), student); err != nil {
-		return err
+		return errors.Wrap(err, "failed to update student")
 	}
 
 	return nil
@@ -79,7 +81,7 @@ func (c *client) UpdateStudent(student *models.Student) error {
 
 func (c *client) DeleteStudent(id string) error {
 	if _, err := c.db.Query(fmt.Sprintf(`DELETE FROM %s WHERE id= '%s'`, studentTableName, id)); err != nil {
-		return err
+		return errors.Wrap(err, "failed to delete student")
 	}
 
 	return nil
@@ -90,7 +92,7 @@ func (c *client) AddTeacher(teacher *models.Teacher) (string, error) {
 	if _, err := c.db.NamedExec(fmt.Sprintf(`INSERT INTO %s (%s) VALUES(%s)`, teacherTableName, strings.Join(teacher.Names(), ","), strings.Join(mkPlaceHolder(names, ":", func(name, prefix string) string {
 		return prefix + name
 	}), ",")), teacher); err != nil {
-		return "", err
+		return "", errors.Wrap(err, "failed to add teacher")
 	}
 
 	return "", nil
@@ -99,7 +101,7 @@ func (c *client) AddTeacher(teacher *models.Teacher) (string, error) {
 func (c *client) GetTeacher(id string) (*models.Teacher, error) {
 	var tch models.Teacher
 	if err := c.db.Get(&tch, fmt.Sprintf(`SELECT * FROM %s WHERE id = '%s'`, teacherTableName, id)); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to get teacher")
 	}
 
 	return &tch, nil
@@ -110,7 +112,7 @@ func (c *client) UpdateTeacher(teacher *models.Teacher) error {
 	if _, err := c.db.NamedExec(fmt.Sprintf(`UPDATE %s SET %s`, teacherTableName, strings.Join(mkPlaceHolder(names, "=:", func(name, prefix string) string {
 		return name + prefix + name
 	}), ",")), teacher); err != nil {
-		return err
+		return errors.Wrap(err, "failed to update teacher")
 	}
 
 	return nil
@@ -118,7 +120,7 @@ func (c *client) UpdateTeacher(teacher *models.Teacher) error {
 
 func (c *client) DeleteTeacher(id string) error {
 	if _, err := c.db.Query(fmt.Sprintf(`DELETE FROM %s WHERE id= '%s'`, teacherTableName, id)); err != nil {
-		return err
+		return errors.Wrap(err, "failed to delete teacher")
 	}
 
 	return nil

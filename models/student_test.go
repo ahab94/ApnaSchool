@@ -89,7 +89,7 @@ func TestStudent_Names(t *testing.T) {
 				Department: "IT",
 				Grade:      10,
 			},
-			want: []string{"id","name","age", "department", "grade"},
+			want: []string{"id", "name", "age", "department", "grade"},
 		},
 	}
 	for _, tt := range tests {

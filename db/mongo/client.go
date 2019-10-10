@@ -2,9 +2,9 @@ package mongo
 
 import (
 	"context"
-	"errors"
 	"time"
 
+	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -32,7 +32,7 @@ func NewClient(conf db.Option) (db.DataStore, error) {
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	cli, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to connect to db")
 	}
 
 	return &client{conn: cli}, nil
@@ -47,7 +47,7 @@ func (c *client) AddStudent(student *models.Student) (string, error) {
 	collection := c.conn.Database(dbName).Collection(stdCollection)
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	if _, err := collection.InsertOne(ctx, student); err != nil {
-		return "", err
+		return "", errors.Wrap(err, "failed to add student")
 	}
 
 	return student.ID, nil
@@ -58,7 +58,7 @@ func (c *client) GetStudent(id string) (*models.Student, error) {
 	collection := c.conn.Database(dbName).Collection(stdCollection)
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	if err := collection.FindOne(ctx, bson.M{"_id": id}).Decode(&stu); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to get student")
 	}
 
 	return stu, nil
@@ -68,7 +68,7 @@ func (c *client) DeleteStudent(id string) error {
 	collection := c.conn.Database(dbName).Collection(stdCollection)
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	if _, err := collection.DeleteOne(ctx, bson.M{"_id": id}); err != nil {
-		return err
+		return errors.Wrap(err, "failed to delete student")
 	}
 
 	return nil
@@ -77,7 +77,7 @@ func (c *client) DeleteStudent(id string) error {
 func (c *client) UpdateStudent(student *models.Student) error {
 	collection := c.conn.Database(dbName).Collection(stdCollection)
 	if _, err := collection.UpdateOne(context.TODO(), bson.M{"_id": student.ID}, bson.M{"$set": student}); err != nil {
-		return err
+		return errors.Wrap(err, "failed to update student")
 	}
 
 	return nil
@@ -92,7 +92,7 @@ func (c *client) AddTeacher(teacher *models.Teacher) (string, error) {
 	collection := c.conn.Database(dbName).Collection(tchCollection)
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	if _, err := collection.InsertOne(ctx, teacher); err != nil {
-		return "", err
+		return "", errors.Wrap(err, "failed to add teacher")
 	}
 
 	return teacher.ID, nil
@@ -103,7 +103,7 @@ func (c *client) GetTeacher(id string) (*models.Teacher, error) {
 	collection := c.conn.Database(dbName).Collection(tchCollection)
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	if err := collection.FindOne(ctx, bson.M{"_id": id}).Decode(&tch); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to get teacher")
 	}
 
 	return tch, nil
@@ -113,7 +113,7 @@ func (c *client) DeleteTeacher(id string) error {
 	collection := c.conn.Database(dbName).Collection(tchCollection)
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	if _, err := collection.DeleteOne(ctx, bson.M{"_id": id}); err != nil {
-		return err
+		return errors.Wrap(err, "failed to delete teacher")
 	}
 
 	return nil
@@ -122,7 +122,7 @@ func (c *client) DeleteTeacher(id string) error {
 func (c *client) UpdateTeacher(teacher *models.Teacher) error {
 	collection := c.conn.Database(dbName).Collection(tchCollection)
 	if _, err := collection.UpdateOne(context.TODO(), bson.M{"_id": teacher.ID}, bson.M{"$set": teacher}); err != nil {
-		return err
+		return errors.Wrap(err, "failed to update teacher")
 	}
 
 	return nil

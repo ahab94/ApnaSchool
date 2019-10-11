@@ -17,13 +17,13 @@ tmp/dev_image_id:
 	@docker inspect -f "{{ .ID }}" ${DEV_IMAGE} > tmp/dev_image_id
 
 format: prepare
-	${DOCKRUN} bash /opt/format.sh
+	${DOCKRUN} bash ./scripts/format.sh
 
 check: prepare
-	${DOCKRUN} bash /opt/check.sh
+	${DOCKRUN} bash ./scripts/check.sh
 
 todo: prepare
-	${DOCKRUN} bash /opt/todo.sh
+	${DOCKRUN} bash ./scripts/todo.sh
 
 test: prepare format check
-	${DOCKRUN} bash /opt/test.sh
+	${DOCKRUN} bash ./scripts/test.sh

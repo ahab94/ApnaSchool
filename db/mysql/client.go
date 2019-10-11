@@ -7,17 +7,16 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"github.com/spf13/viper"
 
+	"github.com/ahab94/ApnaSchool/config"
 	"github.com/ahab94/ApnaSchool/db"
 	"github.com/ahab94/ApnaSchool/models"
 )
 
 const (
-	databaseName     = "apna_school"
 	studentTableName = "student"
 	teacherTableName = "teacher"
-	databasePassword = "Talha1996@gmail.com"
-	databaseUser     = "talha"
 )
 
 func init() {
@@ -32,11 +31,11 @@ type client struct {
 func formatDSN() string {
 	cfg := mysql.NewConfig()
 	cfg.Net = "tcp"
-	cfg.Addr = fmt.Sprintf("%s:%s", "localhost", "3306")
-	cfg.DBName = databaseName
+	cfg.Addr = fmt.Sprintf("%s:%s", config.DbHost, config.DbPort)
+	cfg.DBName = viper.GetString(config.DbName)
 	cfg.ParseTime = true
-	cfg.User = databaseUser
-	cfg.Passwd = databasePassword
+	cfg.User = viper.GetString(config.DbUser)
+	cfg.Passwd = viper.GetString(config.DbPass)
 	return cfg.FormatDSN()
 }
 
@@ -50,7 +49,7 @@ func NewClient(conf db.Option) (db.DataStore, error) {
 
 func (c *client) AddStudent(student *models.Student) (string, error) {
 	names := student.Names()
-	if _, err := c.db.NamedExec(fmt.Sprintf(`INSERT INTO %s (%s) VALUES(%s)`, studentTableName, strings.Join(student.Names(), ","), strings.Join(mkPlaceHolder(names, ":", func(name, prefix string) string {
+	if _, err := c.db.NamedExec(fmt.Sprintf(`INSERT INTO %s (%s) VALUES(%s)`, studentTableName, strings.Join(names, ","), strings.Join(mkPlaceHolder(names, ":", func(name, prefix string) string {
 		return prefix + name
 	}), ",")), student); err != nil {
 		return "", errors.Wrap(err, "failed to add student")
@@ -89,7 +88,7 @@ func (c *client) DeleteStudent(id string) error {
 
 func (c *client) AddTeacher(teacher *models.Teacher) (string, error) {
 	names := teacher.Names()
-	if _, err := c.db.NamedExec(fmt.Sprintf(`INSERT INTO %s (%s) VALUES(%s)`, teacherTableName, strings.Join(teacher.Names(), ","), strings.Join(mkPlaceHolder(names, ":", func(name, prefix string) string {
+	if _, err := c.db.NamedExec(fmt.Sprintf(`INSERT INTO %s (%s) VALUES(%s)`, teacherTableName, strings.Join(names, ","), strings.Join(mkPlaceHolder(names, ":", func(name, prefix string) string {
 		return prefix + name
 	}), ",")), teacher); err != nil {
 		return "", errors.Wrap(err, "failed to add teacher")

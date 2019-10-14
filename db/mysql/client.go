@@ -41,6 +41,7 @@ func formatDSN() string {
 }
 
 func NewClient(conf db.Option) (db.DataStore, error) {
+	log().Info("initializing mysql connection: " + formatDSN())
 	cli, err := sqlx.Connect("mysql", formatDSN())
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to connect to db")

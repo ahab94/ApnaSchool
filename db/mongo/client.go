@@ -29,6 +29,7 @@ type client struct {
 }
 
 func NewClient(conf db.Option) (db.DataStore, error) {
+	log().Info("initializing mongodb")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	cli, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {

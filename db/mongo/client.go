@@ -3,10 +3,9 @@ package mongo
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/pkg/errors"
-	"github.com/satori/go.uuid"
+	uuid "github.com/satori/go.uuid"
 	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -30,10 +29,11 @@ type client struct {
 	conn *mongo.Client
 }
 
+// NewClient initializes a mysql database connection
 func NewClient(conf db.Option) (db.DataStore, error) {
-	log().Info("initializing mongodb")
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	cli, err := mongo.Connect(ctx, options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s", viper.GetString(config.DbHost), viper.GetString(config.DbPort))))
+	uri := fmt.Sprintf("mongodb://%s:%s", viper.GetString(config.DbHost), viper.GetString(config.DbPort))
+	log().Infof("initializing mongodb: %s", uri)
+	cli, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to connect to db")
 	}
@@ -48,8 +48,7 @@ func (c *client) AddStudent(student *models.Student) (string, error) {
 
 	student.ID = uuid.NewV4().String()
 	collection := c.conn.Database(viper.GetString(config.DbName)).Collection(stuCollection)
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	if _, err := collection.InsertOne(ctx, student); err != nil {
+	if _, err := collection.InsertOne(context.TODO(), student); err != nil {
 		return "", errors.Wrap(err, "failed to add student")
 	}
 
@@ -59,8 +58,7 @@ func (c *client) AddStudent(student *models.Student) (string, error) {
 func (c *client) GetStudent(id string) (*models.Student, error) {
 	var stu *models.Student
 	collection := c.conn.Database(viper.GetString(config.DbName)).Collection(stuCollection)
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	if err := collection.FindOne(ctx, bson.M{"_id": id}).Decode(&stu); err != nil {
+	if err := collection.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&stu); err != nil {
 		return nil, errors.Wrap(err, "failed to get student")
 	}
 
@@ -69,8 +67,7 @@ func (c *client) GetStudent(id string) (*models.Student, error) {
 
 func (c *client) DeleteStudent(id string) error {
 	collection := c.conn.Database(viper.GetString(config.DbName)).Collection(stuCollection)
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	if _, err := collection.DeleteOne(ctx, bson.M{"_id": id}); err != nil {
+	if _, err := collection.DeleteOne(context.TODO(), bson.M{"_id": id}); err != nil {
 		return errors.Wrap(err, "failed to delete student")
 	}
 
@@ -93,8 +90,7 @@ func (c *client) AddTeacher(teacher *models.Teacher) (string, error) {
 
 	teacher.ID = uuid.NewV4().String()
 	collection := c.conn.Database(viper.GetString(config.DbName)).Collection(tchCollection)
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	if _, err := collection.InsertOne(ctx, teacher); err != nil {
+	if _, err := collection.InsertOne(context.TODO(), teacher); err != nil {
 		return "", errors.Wrap(err, "failed to add teacher")
 	}
 
@@ -104,8 +100,7 @@ func (c *client) AddTeacher(teacher *models.Teacher) (string, error) {
 func (c *client) GetTeacher(id string) (*models.Teacher, error) {
 	var tch *models.Teacher
 	collection := c.conn.Database(viper.GetString(config.DbName)).Collection(tchCollection)
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	if err := collection.FindOne(ctx, bson.M{"_id": id}).Decode(&tch); err != nil {
+	if err := collection.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&tch); err != nil {
 		return nil, errors.Wrap(err, "failed to get teacher")
 	}
 
@@ -114,8 +109,7 @@ func (c *client) GetTeacher(id string) (*models.Teacher, error) {
 
 func (c *client) DeleteTeacher(id string) error {
 	collection := c.conn.Database(viper.GetString(config.DbName)).Collection(tchCollection)
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	if _, err := collection.DeleteOne(ctx, bson.M{"_id": id}); err != nil {
+	if _, err := collection.DeleteOne(context.TODO(), bson.M{"_id": id}); err != nil {
 		return errors.Wrap(err, "failed to delete teacher")
 	}
 

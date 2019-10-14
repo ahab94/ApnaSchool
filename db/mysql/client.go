@@ -7,7 +7,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
-	"github.com/satori/go.uuid"
+	uuid "github.com/satori/go.uuid"
 	"github.com/spf13/viper"
 
 	"github.com/ahab94/ApnaSchool/config"
@@ -40,6 +40,7 @@ func formatDSN() string {
 	return cfg.FormatDSN()
 }
 
+// NewClient initializes a mysql database connection
 func NewClient(conf db.Option) (db.DataStore, error) {
 	log().Info("initializing mysql connection: " + formatDSN())
 	cli, err := sqlx.Connect("mysql", formatDSN())

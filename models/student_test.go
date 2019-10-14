@@ -81,7 +81,7 @@ func TestStudent_Names(t *testing.T) {
 		want   []string
 	}{
 		{
-			name: " success - student struct to map",
+			name: " success - names of student struct fields",
 			fields: fields{
 				ID:         "12345",
 				Name:       "ahmed",

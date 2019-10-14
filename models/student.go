@@ -4,6 +4,7 @@ import (
 	"github.com/fatih/structs"
 )
 
+// Student holds information for a student
 type Student struct {
 	ID         string `json:"id" structs:"id"  bson:"_id" db:"id"`
 	Name       string `json:"name" structs:"name"  bson:"name" db:"name"`
@@ -12,10 +13,12 @@ type Student struct {
 	Grade      int    `json:"grade" structs:"grade" bson:"grade" db:"grade"`
 }
 
+// Map converts structs to a map representation
 func (s *Student) Map() map[string]interface{} {
 	return structs.Map(s)
 }
 
+// Names returns the field names of Student model
 func (s *Student) Names() []string {
 	fields := structs.Fields(s)
 	names := make([]string, len(fields))

@@ -10,6 +10,7 @@ require (
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/pkg/errors v0.8.1
 	github.com/satori/go.uuid v1.2.0
+	github.com/sirupsen/logrus v1.2.0
 	github.com/spf13/viper v1.4.0
 	github.com/stretchr/testify v1.4.0 // indirect
 	github.com/tidwall/pretty v1.0.0 // indirect

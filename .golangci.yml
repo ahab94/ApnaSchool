@@ -127,6 +127,8 @@ linters:
     - gochecknoglobals
     - gochecknoinits
     - dupl
+    - stylecheck
+    - wsl
   # disable-all: false
   # presets:
   #   - bugs

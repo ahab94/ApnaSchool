@@ -129,6 +129,7 @@ linters:
     - dupl
     - stylecheck
     - wsl
+    - godox
   # disable-all: false
   # presets:
   #   - bugs

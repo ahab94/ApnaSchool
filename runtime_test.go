@@ -1,27 +1,27 @@
-package service
+package runtime
 
 import (
 	"reflect"
 	"testing"
 )
 
-func TestNewService(t *testing.T) {
+func TestNewRuntime(t *testing.T) {
 	tests := []struct {
 		name    string
-		want    *Service
+		want    *Runtime
 		wantErr bool
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewService()
+			got, err := NewRuntime()
 			if (err != nil) != tt.wantErr {
-				t.Errorf("NewService() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("NewRuntime() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewService() got = %v, want %v", got, tt.want)
+				t.Errorf("NewRuntime() got = %v, want %v", got, tt.want)
 			}
 		})
 	}

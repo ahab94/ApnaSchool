@@ -130,6 +130,7 @@ linters:
     - stylecheck
     - wsl
     - godox
+    - errcheck
   # disable-all: false
   # presets:
   #   - bugs

@@ -25,6 +25,4 @@ func init() {
 	viper.SetDefault(DbName, "apna_school")
 	viper.SetDefault(DbHost, "localhost")
 	viper.SetDefault(DbPort, "3306")
-	viper.SetDefault(DbUser, "talha")
-	viper.SetDefault(DbPass, "Talha1996@gmail.com")
 }

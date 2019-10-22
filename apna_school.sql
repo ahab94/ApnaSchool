@@ -1,5 +1,7 @@
 CREATE DATABASE apna_school;
 
+use apna_school;
+
 CREATE TABLE student  (
      id         VARCHAR(50),
      name       VARCHAR(50),

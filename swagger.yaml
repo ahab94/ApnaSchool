@@ -1,0 +1,83 @@
+---
+swagger: "2.0"
+info:
+  description: "A School Management System"
+  version: "0.0.1"
+  title: "Apna School"
+host: "localhost:8080"
+basePath: "/"
+schemes:
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /teacher:
+    post:
+      operationId: "addTeacher"
+      parameters:
+        - in: "body"
+          name: "teacher"
+          description: "teacher's details"
+          required: false
+          schema:
+            $ref: "#/definitions/Teacher"
+      responses:
+        201:
+          description: "teacher added"
+  /teacher/{ID}:
+    get:
+      operationId: "getTeacher"
+      parameters:
+        - in: "path"
+          type: "string"
+          name: "ID"
+          required: true
+          description: "UUID of the teacher"
+      description: "return teacher based on UUID"
+      responses:
+        '200':
+          description: "teacher response"
+        '404':
+          description: "teacher not found"
+    put:
+      operationId: "editTeacher"
+      parameters:
+        - in: "path"
+          type: "string"
+          name: "ID"
+          required: true
+          description: "UUID of the teacher"
+      responses:
+        200:
+          description: "teacher updated"
+        500:
+          description: "internal server error"
+    delete:
+      operationId: "deleteTeacher"
+      parameters:
+        - in: "path"
+          name: "ID"
+          type: "string"
+          description: "UUID of the teacher"
+          required: true
+      responses:
+        204:
+          description: "teacher deleted"
+        404:
+          description: "teacher not found"
+definitions:
+  Teacher:
+    type: "object"
+    properties:
+      ID:
+        type: "string"
+      Name:
+        type: "string"
+      Age:
+        type: "string"
+      Department:
+        type: "string"
+      Salary:
+        type: "integer"

@@ -37,14 +37,26 @@ func NewApnaSchoolAPI(spec *loads.Document) *ApnaSchoolAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
+		AddStudentHandler: AddStudentHandlerFunc(func(params AddStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation AddStudent has not yet been implemented")
+		}),
 		AddTeacherHandler: AddTeacherHandlerFunc(func(params AddTeacherParams) middleware.Responder {
 			return middleware.NotImplemented("operation AddTeacher has not yet been implemented")
+		}),
+		DeleteStudentHandler: DeleteStudentHandlerFunc(func(params DeleteStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation DeleteStudent has not yet been implemented")
 		}),
 		DeleteTeacherHandler: DeleteTeacherHandlerFunc(func(params DeleteTeacherParams) middleware.Responder {
 			return middleware.NotImplemented("operation DeleteTeacher has not yet been implemented")
 		}),
+		EditStudentHandler: EditStudentHandlerFunc(func(params EditStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation EditStudent has not yet been implemented")
+		}),
 		EditTeacherHandler: EditTeacherHandlerFunc(func(params EditTeacherParams) middleware.Responder {
 			return middleware.NotImplemented("operation EditTeacher has not yet been implemented")
+		}),
+		GetStudentHandler: GetStudentHandlerFunc(func(params GetStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation GetStudent has not yet been implemented")
 		}),
 		GetTeacherHandler: GetTeacherHandlerFunc(func(params GetTeacherParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetTeacher has not yet been implemented")
@@ -80,12 +92,20 @@ type ApnaSchoolAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
+	// AddStudentHandler sets the operation handler for the add student operation
+	AddStudentHandler AddStudentHandler
 	// AddTeacherHandler sets the operation handler for the add teacher operation
 	AddTeacherHandler AddTeacherHandler
+	// DeleteStudentHandler sets the operation handler for the delete student operation
+	DeleteStudentHandler DeleteStudentHandler
 	// DeleteTeacherHandler sets the operation handler for the delete teacher operation
 	DeleteTeacherHandler DeleteTeacherHandler
+	// EditStudentHandler sets the operation handler for the edit student operation
+	EditStudentHandler EditStudentHandler
 	// EditTeacherHandler sets the operation handler for the edit teacher operation
 	EditTeacherHandler EditTeacherHandler
+	// GetStudentHandler sets the operation handler for the get student operation
+	GetStudentHandler GetStudentHandler
 	// GetTeacherHandler sets the operation handler for the get teacher operation
 	GetTeacherHandler GetTeacherHandler
 
@@ -151,16 +171,32 @@ func (o *ApnaSchoolAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.AddStudentHandler == nil {
+		unregistered = append(unregistered, "AddStudentHandler")
+	}
+
 	if o.AddTeacherHandler == nil {
 		unregistered = append(unregistered, "AddTeacherHandler")
+	}
+
+	if o.DeleteStudentHandler == nil {
+		unregistered = append(unregistered, "DeleteStudentHandler")
 	}
 
 	if o.DeleteTeacherHandler == nil {
 		unregistered = append(unregistered, "DeleteTeacherHandler")
 	}
 
+	if o.EditStudentHandler == nil {
+		unregistered = append(unregistered, "EditStudentHandler")
+	}
+
 	if o.EditTeacherHandler == nil {
 		unregistered = append(unregistered, "EditTeacherHandler")
+	}
+
+	if o.GetStudentHandler == nil {
+		unregistered = append(unregistered, "GetStudentHandler")
 	}
 
 	if o.GetTeacherHandler == nil {
@@ -268,7 +304,17 @@ func (o *ApnaSchoolAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
+	o.handlers["POST"]["/student"] = NewAddStudent(o.context, o.AddStudentHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
 	o.handlers["POST"]["/teacher"] = NewAddTeacher(o.context, o.AddTeacherHandler)
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/student/{ID}"] = NewDeleteStudent(o.context, o.DeleteStudentHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
@@ -278,7 +324,17 @@ func (o *ApnaSchoolAPI) initHandlerCache() {
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
+	o.handlers["PUT"]["/student/{ID}"] = NewEditStudent(o.context, o.EditStudentHandler)
+
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
 	o.handlers["PUT"]["/teacher/{ID}"] = NewEditTeacher(o.context, o.EditTeacherHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/student/{ID}"] = NewGetStudent(o.context, o.GetStudentHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

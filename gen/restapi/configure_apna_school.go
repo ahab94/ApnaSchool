@@ -13,7 +13,7 @@ import (
 	"github.com/ahab94/ApnaSchool/gen/restapi/operations"
 )
 
-//go:generate swagger generate server --target ../../../apnaschool --name ApnaSchool --spec ../../swagger.yaml --model-package gen/models --server-package gen/restapi
+//go:generate swagger generate server --target ../../gen --name ApnaSchool --spec ../../swagger.yaml --exclude-main
 
 func configureFlags(api *operations.ApnaSchoolAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
@@ -33,9 +33,19 @@ func configureAPI(api *operations.ApnaSchoolAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
+	if api.AddStudentHandler == nil {
+		api.AddStudentHandler = operations.AddStudentHandlerFunc(func(params operations.AddStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation .AddStudent has not yet been implemented")
+		})
+	}
 	if api.AddTeacherHandler == nil {
 		api.AddTeacherHandler = operations.AddTeacherHandlerFunc(func(params operations.AddTeacherParams) middleware.Responder {
 			return middleware.NotImplemented("operation .AddTeacher has not yet been implemented")
+		})
+	}
+	if api.DeleteStudentHandler == nil {
+		api.DeleteStudentHandler = operations.DeleteStudentHandlerFunc(func(params operations.DeleteStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation .DeleteStudent has not yet been implemented")
 		})
 	}
 	if api.DeleteTeacherHandler == nil {
@@ -43,9 +53,19 @@ func configureAPI(api *operations.ApnaSchoolAPI) http.Handler {
 			return middleware.NotImplemented("operation .DeleteTeacher has not yet been implemented")
 		})
 	}
+	if api.EditStudentHandler == nil {
+		api.EditStudentHandler = operations.EditStudentHandlerFunc(func(params operations.EditStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation .EditStudent has not yet been implemented")
+		})
+	}
 	if api.EditTeacherHandler == nil {
 		api.EditTeacherHandler = operations.EditTeacherHandlerFunc(func(params operations.EditTeacherParams) middleware.Responder {
 			return middleware.NotImplemented("operation .EditTeacher has not yet been implemented")
+		})
+	}
+	if api.GetStudentHandler == nil {
+		api.GetStudentHandler = operations.GetStudentHandlerFunc(func(params operations.GetStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation .GetStudent has not yet been implemented")
 		})
 	}
 	if api.GetTeacherHandler == nil {

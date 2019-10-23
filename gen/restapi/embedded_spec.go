@@ -36,6 +36,89 @@ func init() {
   "host": "localhost:8080",
   "basePath": "/",
   "paths": {
+    "/student": {
+      "post": {
+        "operationId": "addStudent",
+        "parameters": [
+          {
+            "description": "student's details",
+            "name": "student",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "student added"
+          }
+        }
+      }
+    },
+    "/student/{ID}": {
+      "get": {
+        "description": "return student based on UUID",
+        "operationId": "getStudent",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "UUID of the student",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "student response"
+          },
+          "404": {
+            "description": "student not found"
+          }
+        }
+      },
+      "put": {
+        "operationId": "editStudent",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "UUID of the student",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "student updated"
+          },
+          "500": {
+            "description": "internal server error"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteStudent",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "UUID of the student",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "student deleted"
+          },
+          "404": {
+            "description": "student not found"
+          }
+        }
+      }
+    },
     "/teacher": {
       "post": {
         "operationId": "addTeacher",
@@ -121,6 +204,26 @@ func init() {
     }
   },
   "definitions": {
+    "Student": {
+      "type": "object",
+      "properties": {
+        "Age": {
+          "type": "string"
+        },
+        "Department": {
+          "type": "string"
+        },
+        "Grade": {
+          "type": "integer"
+        },
+        "ID": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        }
+      }
+    },
     "Teacher": {
       "type": "object",
       "properties": {
@@ -162,6 +265,89 @@ func init() {
   "host": "localhost:8080",
   "basePath": "/",
   "paths": {
+    "/student": {
+      "post": {
+        "operationId": "addStudent",
+        "parameters": [
+          {
+            "description": "student's details",
+            "name": "student",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "student added"
+          }
+        }
+      }
+    },
+    "/student/{ID}": {
+      "get": {
+        "description": "return student based on UUID",
+        "operationId": "getStudent",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "UUID of the student",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "student response"
+          },
+          "404": {
+            "description": "student not found"
+          }
+        }
+      },
+      "put": {
+        "operationId": "editStudent",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "UUID of the student",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "student updated"
+          },
+          "500": {
+            "description": "internal server error"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteStudent",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "UUID of the student",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "student deleted"
+          },
+          "404": {
+            "description": "student not found"
+          }
+        }
+      }
+    },
     "/teacher": {
       "post": {
         "operationId": "addTeacher",
@@ -247,6 +433,26 @@ func init() {
     }
   },
   "definitions": {
+    "Student": {
+      "type": "object",
+      "properties": {
+        "Age": {
+          "type": "string"
+        },
+        "Department": {
+          "type": "string"
+        },
+        "Grade": {
+          "type": "integer"
+        },
+        "ID": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        }
+      }
+    },
     "Teacher": {
       "type": "object",
       "properties": {

@@ -67,6 +67,60 @@ paths:
           description: "teacher deleted"
         404:
           description: "teacher not found"
+  /student:
+    post:
+      operationId: "addStudent"
+      parameters:
+        - in: "body"
+          name: "student"
+          description: "student's details"
+          required: false
+          schema:
+            $ref: "#/definitions/Student"
+      responses:
+        201:
+          description: "student added"
+  /student/{ID}:
+    get:
+      operationId: "getStudent"
+      parameters:
+        - in: "path"
+          type: "string"
+          name: "ID"
+          required: true
+          description: "UUID of the student"
+      description: "return student based on UUID"
+      responses:
+        '200':
+          description: "student response"
+        '404':
+          description: "student not found"
+    put:
+      operationId: "editStudent"
+      parameters:
+        - in: "path"
+          type: "string"
+          name: "ID"
+          required: true
+          description: "UUID of the student"
+      responses:
+        200:
+          description: "student updated"
+        500:
+          description: "internal server error"
+    delete:
+      operationId: "deleteStudent"
+      parameters:
+        - in: "path"
+          name: "ID"
+          type: "string"
+          description: "UUID of the student"
+          required: true
+      responses:
+        204:
+          description: "student deleted"
+        404:
+          description: "student not found"
 definitions:
   Teacher:
     type: "object"
@@ -80,4 +134,17 @@ definitions:
       Department:
         type: "string"
       Salary:
+        type: "integer"
+  Student:
+    type: "object"
+    properties:
+      ID:
+        type: "string"
+      Name:
+        type: "string"
+      Age:
+        type: "string"
+      Department:
+        type: "string"
+      Grade:
         type: "integer"

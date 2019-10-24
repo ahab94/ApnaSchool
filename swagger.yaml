@@ -88,6 +88,10 @@ paths:
       responses:
         201:
           description: "student added"
+          schema:
+            $ref: "#/definitions/Student"
+        409:
+          description: "student already exists"
   /student/{ID}:
     get:
       operationId: "getStudent"
@@ -99,9 +103,11 @@ paths:
           description: "UUID of the student"
       description: "return student based on UUID"
       responses:
-        '200':
+        200:
           description: "student response"
-        '404':
+          schema:
+            $ref: "#/definitions/Student"
+        404:
           description: "student not found"
     put:
       operationId: "editStudent"
@@ -114,6 +120,8 @@ paths:
       responses:
         200:
           description: "student updated"
+          schema:
+            $ref: "#/definitions/Student"
         500:
           description: "internal server error"
     delete:

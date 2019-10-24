@@ -19,5 +19,12 @@ func NewHandler(rt *runtime.Runtime, spec *loads.Document) Handler {
 	handler.GetTeacherHandler = NewGetTeacher(rt)
 	handler.EditTeacherHandler = NewEditTeacher(rt)
 	handler.DeleteTeacherHandler = NewDeleteTeacher(rt)
+
+	// student handlers
+	handler.AddStudentHandler = NewAddStudent(rt)
+	handler.GetStudentHandler = NewGetStudent(rt)
+	handler.EditStudentHandler = NewEditStudent(rt)
+	handler.DeleteStudentHandler = NewDeleteStudent(rt)
+
 	return handler
 }

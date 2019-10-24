@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/ahab94/ApnaSchool/gen/models"
 )
 
 // EditStudentOKCode is the HTTP code returned for type EditStudentOK
@@ -19,6 +21,11 @@ const EditStudentOKCode int = 200
 swagger:response editStudentOK
 */
 type EditStudentOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Student `json:"body,omitempty"`
 }
 
 // NewEditStudentOK creates EditStudentOK with default headers values
@@ -27,12 +34,27 @@ func NewEditStudentOK() *EditStudentOK {
 	return &EditStudentOK{}
 }
 
+// WithPayload adds the payload to the edit student o k response
+func (o *EditStudentOK) WithPayload(payload *models.Student) *EditStudentOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the edit student o k response
+func (o *EditStudentOK) SetPayload(payload *models.Student) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *EditStudentOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(200)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // EditStudentInternalServerErrorCode is the HTTP code returned for type EditStudentInternalServerError

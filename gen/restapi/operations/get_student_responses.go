@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/ahab94/ApnaSchool/gen/models"
 )
 
 // GetStudentOKCode is the HTTP code returned for type GetStudentOK
@@ -19,6 +21,11 @@ const GetStudentOKCode int = 200
 swagger:response getStudentOK
 */
 type GetStudentOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Student `json:"body,omitempty"`
 }
 
 // NewGetStudentOK creates GetStudentOK with default headers values
@@ -27,12 +34,27 @@ func NewGetStudentOK() *GetStudentOK {
 	return &GetStudentOK{}
 }
 
+// WithPayload adds the payload to the get student o k response
+func (o *GetStudentOK) WithPayload(payload *models.Student) *GetStudentOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get student o k response
+func (o *GetStudentOK) SetPayload(payload *models.Student) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *GetStudentOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(200)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // GetStudentNotFoundCode is the HTTP code returned for type GetStudentNotFound

@@ -51,7 +51,13 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "student added"
+            "description": "student added",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          },
+          "409": {
+            "description": "student already exists"
           }
         }
       }
@@ -71,7 +77,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "student response"
+            "description": "student response",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
           },
           "404": {
             "description": "student not found"
@@ -91,7 +100,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "student updated"
+            "description": "student updated",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
           },
           "500": {
             "description": "internal server error"
@@ -134,7 +146,13 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "teacher added"
+            "description": "teacher added",
+            "schema": {
+              "$ref": "#/definitions/Teacher"
+            }
+          },
+          "409": {
+            "description": "teacher already exists"
           }
         }
       }
@@ -154,7 +172,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "teacher response"
+            "description": "teacher response",
+            "schema": {
+              "$ref": "#/definitions/Teacher"
+            }
           },
           "404": {
             "description": "teacher not found"
@@ -174,7 +195,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "teacher updated"
+            "description": "teacher updated",
+            "schema": {
+              "$ref": "#/definitions/Teacher"
+            }
           },
           "500": {
             "description": "internal server error"
@@ -280,7 +304,13 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "student added"
+            "description": "student added",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          },
+          "409": {
+            "description": "student already exists"
           }
         }
       }
@@ -300,7 +330,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "student response"
+            "description": "student response",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
           },
           "404": {
             "description": "student not found"
@@ -320,7 +353,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "student updated"
+            "description": "student updated",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
           },
           "500": {
             "description": "internal server error"
@@ -363,7 +399,13 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "teacher added"
+            "description": "teacher added",
+            "schema": {
+              "$ref": "#/definitions/Teacher"
+            }
+          },
+          "409": {
+            "description": "teacher already exists"
           }
         }
       }
@@ -383,7 +425,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "teacher response"
+            "description": "teacher response",
+            "schema": {
+              "$ref": "#/definitions/Teacher"
+            }
           },
           "404": {
             "description": "teacher not found"
@@ -403,7 +448,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "teacher updated"
+            "description": "teacher updated",
+            "schema": {
+              "$ref": "#/definitions/Teacher"
+            }
           },
           "500": {
             "description": "internal server error"

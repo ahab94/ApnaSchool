@@ -26,6 +26,10 @@ paths:
       responses:
         201:
           description: "teacher added"
+          schema:
+            $ref: "#/definitions/Teacher"
+        409:
+          description: "teacher already exists"
   /teacher/{ID}:
     get:
       operationId: "getTeacher"
@@ -37,9 +41,11 @@ paths:
           description: "UUID of the teacher"
       description: "return teacher based on UUID"
       responses:
-        '200':
+        200:
           description: "teacher response"
-        '404':
+          schema:
+            $ref: "#/definitions/Teacher"
+        404:
           description: "teacher not found"
     put:
       operationId: "editTeacher"
@@ -52,6 +58,8 @@ paths:
       responses:
         200:
           description: "teacher updated"
+          schema:
+            $ref: "#/definitions/Teacher"
         500:
           description: "internal server error"
     delete:

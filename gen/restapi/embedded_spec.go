@@ -134,7 +134,13 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "teacher added"
+            "description": "teacher added",
+            "schema": {
+              "$ref": "#/definitions/Teacher"
+            }
+          },
+          "409": {
+            "description": "teacher already exists"
           }
         }
       }
@@ -154,7 +160,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "teacher response"
+            "description": "teacher response",
+            "schema": {
+              "$ref": "#/definitions/Teacher"
+            }
           },
           "404": {
             "description": "teacher not found"
@@ -363,7 +372,13 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "teacher added"
+            "description": "teacher added",
+            "schema": {
+              "$ref": "#/definitions/Teacher"
+            }
+          },
+          "409": {
+            "description": "teacher already exists"
           }
         }
       }
@@ -383,7 +398,10 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "teacher response"
+            "description": "teacher response",
+            "schema": {
+              "$ref": "#/definitions/Teacher"
+            }
           },
           "404": {
             "description": "teacher not found"

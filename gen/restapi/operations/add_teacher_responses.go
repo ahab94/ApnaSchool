@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/ahab94/ApnaSchool/gen/models"
 )
 
 // AddTeacherCreatedCode is the HTTP code returned for type AddTeacherCreated
@@ -19,6 +21,11 @@ const AddTeacherCreatedCode int = 201
 swagger:response addTeacherCreated
 */
 type AddTeacherCreated struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Teacher `json:"body,omitempty"`
 }
 
 // NewAddTeacherCreated creates AddTeacherCreated with default headers values
@@ -27,10 +34,49 @@ func NewAddTeacherCreated() *AddTeacherCreated {
 	return &AddTeacherCreated{}
 }
 
+// WithPayload adds the payload to the add teacher created response
+func (o *AddTeacherCreated) WithPayload(payload *models.Teacher) *AddTeacherCreated {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the add teacher created response
+func (o *AddTeacherCreated) SetPayload(payload *models.Teacher) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *AddTeacherCreated) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
+	rw.WriteHeader(201)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// AddTeacherConflictCode is the HTTP code returned for type AddTeacherConflict
+const AddTeacherConflictCode int = 409
+
+/*AddTeacherConflict teacher already exists
+
+swagger:response addTeacherConflict
+*/
+type AddTeacherConflict struct {
+}
+
+// NewAddTeacherConflict creates AddTeacherConflict with default headers values
+func NewAddTeacherConflict() *AddTeacherConflict {
+
+	return &AddTeacherConflict{}
+}
+
+// WriteResponse to the client
+func (o *AddTeacherConflict) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
 	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
 
-	rw.WriteHeader(201)
+	rw.WriteHeader(409)
 }

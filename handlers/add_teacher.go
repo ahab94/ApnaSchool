@@ -26,7 +26,7 @@ func (d *addTeacher) Handle(params operations.AddTeacherParams) middleware.Respo
 		Salary:     int(params.Teacher.Salary),
 	})
 	if err != nil {
-		log().Errorf("failed to add student: %s", err)
+		log().Errorf("failed to add teacher: %s", err)
 		return operations.NewAddTeacherConflict()
 	}
 

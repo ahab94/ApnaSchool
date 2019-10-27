@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/ahab94/ApnaSchool/gen/models"
 )
 
 // AddStudentCreatedCode is the HTTP code returned for type AddStudentCreated
@@ -19,6 +21,11 @@ const AddStudentCreatedCode int = 201
 swagger:response addStudentCreated
 */
 type AddStudentCreated struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Student `json:"body,omitempty"`
 }
 
 // NewAddStudentCreated creates AddStudentCreated with default headers values
@@ -27,10 +34,49 @@ func NewAddStudentCreated() *AddStudentCreated {
 	return &AddStudentCreated{}
 }
 
+// WithPayload adds the payload to the add student created response
+func (o *AddStudentCreated) WithPayload(payload *models.Student) *AddStudentCreated {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the add student created response
+func (o *AddStudentCreated) SetPayload(payload *models.Student) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *AddStudentCreated) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
+	rw.WriteHeader(201)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// AddStudentConflictCode is the HTTP code returned for type AddStudentConflict
+const AddStudentConflictCode int = 409
+
+/*AddStudentConflict student already exists
+
+swagger:response addStudentConflict
+*/
+type AddStudentConflict struct {
+}
+
+// NewAddStudentConflict creates AddStudentConflict with default headers values
+func NewAddStudentConflict() *AddStudentConflict {
+
+	return &AddStudentConflict{}
+}
+
+// WriteResponse to the client
+func (o *AddStudentConflict) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
 	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
 
-	rw.WriteHeader(201)
+	rw.WriteHeader(409)
 }

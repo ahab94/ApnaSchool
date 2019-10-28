@@ -1,10 +1,12 @@
 package handlers
 
 import (
+	"github.com/go-openapi/runtime/middleware"
+
 	runtime "github.com/ahab94/ApnaSchool"
+	domainErr "github.com/ahab94/ApnaSchool/errors"
 	"github.com/ahab94/ApnaSchool/gen/models"
 	"github.com/ahab94/ApnaSchool/gen/restapi/operations"
-	"github.com/go-openapi/runtime/middleware"
 )
 
 // NewGetTeacher handles a request for retrieving teacher
@@ -20,8 +22,14 @@ type getTeacher struct {
 func (d *getTeacher) Handle(params operations.GetTeacherParams) middleware.Responder {
 	teacher, err := d.rt.Service().RetrieveTeacher(params.ID)
 	if err != nil {
-		return operations.NewGetTeacherNotFound()
+		switch apiErr := err.(*domainErr.APIError); {
+		case apiErr.IsError(domainErr.NotFound):
+			return operations.NewGetTeacherNotFound()
+		default:
+			return operations.NewGetTeacherInternalServerError()
+		}
 	}
+
 	return operations.NewGetTeacherOK().WithPayload(&models.Teacher{
 		Age:        teacher.Age,
 		Department: teacher.Department,

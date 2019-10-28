@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"database/sql"
 	"fmt"
 	"strings"
 
@@ -12,6 +13,7 @@ import (
 
 	"github.com/ahab94/ApnaSchool/config"
 	"github.com/ahab94/ApnaSchool/db"
+	domainErr "github.com/ahab94/ApnaSchool/errors"
 	"github.com/ahab94/ApnaSchool/models"
 )
 
@@ -69,9 +71,11 @@ func (c *client) AddStudent(student *models.Student) (string, error) {
 func (c *client) GetStudent(id string) (*models.Student, error) {
 	var stu models.Student
 	if err := c.db.Get(&stu, fmt.Sprintf(`SELECT * FROM %s WHERE id = '%s'`, studentTableName, id)); err != nil {
-		return nil, errors.Wrap(err, "failed to get student")
+		if err == sql.ErrNoRows {
+			return nil, domainErr.NewAPIError(domainErr.NotFound, fmt.Sprintf("student: %s not found", id))
+		}
+		return nil, err
 	}
-
 	return &stu, nil
 }
 
@@ -113,9 +117,11 @@ func (c *client) AddTeacher(teacher *models.Teacher) (string, error) {
 func (c *client) GetTeacher(id string) (*models.Teacher, error) {
 	var tch models.Teacher
 	if err := c.db.Get(&tch, fmt.Sprintf(`SELECT * FROM %s WHERE id = '%s'`, teacherTableName, id)); err != nil {
-		return nil, errors.Wrap(err, "failed to get teacher")
+		if err == sql.ErrNoRows {
+			return nil, domainErr.NewAPIError(domainErr.NotFound, fmt.Sprintf("teacher: %s not found", id))
+		}
+		return nil, err
 	}
-
 	return &tch, nil
 }
 

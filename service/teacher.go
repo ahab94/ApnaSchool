@@ -11,15 +11,30 @@ func (s *Service) AddTeacher(teacher *models.Teacher) (string, error) {
 
 // RetrieveTeacher gets teacher from database
 func (s *Service) RetrieveTeacher(id string) (*models.Teacher, error) {
-	return s.db.GetTeacher(id)
+	teacher, err := s.db.GetTeacher(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return teacher, nil
 }
 
 // DeleteTeacher deletes teacher from database
 func (s *Service) DeleteTeacher(id string) error {
+	_, err := s.db.GetTeacher(id)
+	if err != nil {
+		return err
+	}
+
 	return s.db.DeleteTeacher(id)
 }
 
 // UpdateTeacher updates teacher record in database
 func (s *Service) UpdateTeacher(teacher *models.Teacher) error {
+	teacher, err := s.db.GetTeacher(teacher.ID)
+	if err != nil {
+		return err
+	}
+
 	return s.db.UpdateTeacher(teacher)
 }

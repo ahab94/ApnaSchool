@@ -36,6 +36,12 @@ func (o *AddTeacherReader) ReadResponse(response runtime.ClientResponse, consume
 			return nil, err
 		}
 		return nil, result
+	case 500:
+		result := NewAddTeacherInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
 
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
@@ -92,6 +98,27 @@ func (o *AddTeacherConflict) Error() string {
 }
 
 func (o *AddTeacherConflict) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewAddTeacherInternalServerError creates a AddTeacherInternalServerError with default headers values
+func NewAddTeacherInternalServerError() *AddTeacherInternalServerError {
+	return &AddTeacherInternalServerError{}
+}
+
+/*AddTeacherInternalServerError handles this case with default header values.
+
+internal server error
+*/
+type AddTeacherInternalServerError struct {
+}
+
+func (o *AddTeacherInternalServerError) Error() string {
+	return fmt.Sprintf("[POST /teacher][%d] addTeacherInternalServerError ", 500)
+}
+
+func (o *AddTeacherInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	return nil
 }

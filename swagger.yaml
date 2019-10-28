@@ -30,6 +30,8 @@ paths:
             $ref: "#/definitions/Teacher"
         409:
           description: "teacher already exists"
+        500:
+          description: "internal server error"
   /teacher/{ID}:
     get:
       operationId: "getTeacher"
@@ -47,6 +49,9 @@ paths:
             $ref: "#/definitions/Teacher"
         404:
           description: "teacher not found"
+        500:
+          description: "internal server error"
+
     put:
       operationId: "editTeacher"
       parameters:
@@ -75,6 +80,9 @@ paths:
           description: "teacher deleted"
         404:
           description: "teacher not found"
+        500:
+          description: "internal server error"
+
   /student:
     post:
       operationId: "addStudent"
@@ -92,6 +100,9 @@ paths:
             $ref: "#/definitions/Student"
         409:
           description: "student already exists"
+        500:
+          description: "internal server error"
+
   /student/{ID}:
     get:
       operationId: "getStudent"
@@ -109,6 +120,8 @@ paths:
             $ref: "#/definitions/Student"
         404:
           description: "student not found"
+        500:
+          description: "internal server error"
     put:
       operationId: "editStudent"
       parameters:
@@ -137,6 +150,8 @@ paths:
           description: "student deleted"
         404:
           description: "student not found"
+        500:
+          description: "internal server error"
 definitions:
   Teacher:
     type: "object"

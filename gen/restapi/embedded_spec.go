@@ -58,6 +58,9 @@ func init() {
           },
           "409": {
             "description": "student already exists"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       }
@@ -84,6 +87,9 @@ func init() {
           },
           "404": {
             "description": "student not found"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       },
@@ -127,6 +133,9 @@ func init() {
           },
           "404": {
             "description": "student not found"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       }
@@ -153,6 +162,9 @@ func init() {
           },
           "409": {
             "description": "teacher already exists"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       }
@@ -179,6 +191,9 @@ func init() {
           },
           "404": {
             "description": "teacher not found"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       },
@@ -222,6 +237,9 @@ func init() {
           },
           "404": {
             "description": "teacher not found"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       }
@@ -311,6 +329,9 @@ func init() {
           },
           "409": {
             "description": "student already exists"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       }
@@ -337,6 +358,9 @@ func init() {
           },
           "404": {
             "description": "student not found"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       },
@@ -380,6 +404,9 @@ func init() {
           },
           "404": {
             "description": "student not found"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       }
@@ -406,6 +433,9 @@ func init() {
           },
           "409": {
             "description": "teacher already exists"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       }
@@ -432,6 +462,9 @@ func init() {
           },
           "404": {
             "description": "teacher not found"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       },
@@ -475,6 +508,9 @@ func init() {
           },
           "404": {
             "description": "teacher not found"
+          },
+          "500": {
+            "description": "internal server error"
           }
         }
       }

@@ -80,3 +80,27 @@ func (o *GetStudentNotFound) WriteResponse(rw http.ResponseWriter, producer runt
 
 	rw.WriteHeader(404)
 }
+
+// GetStudentInternalServerErrorCode is the HTTP code returned for type GetStudentInternalServerError
+const GetStudentInternalServerErrorCode int = 500
+
+/*GetStudentInternalServerError internal server error
+
+swagger:response getStudentInternalServerError
+*/
+type GetStudentInternalServerError struct {
+}
+
+// NewGetStudentInternalServerError creates GetStudentInternalServerError with default headers values
+func NewGetStudentInternalServerError() *GetStudentInternalServerError {
+
+	return &GetStudentInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *GetStudentInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
+
+	rw.WriteHeader(500)
+}

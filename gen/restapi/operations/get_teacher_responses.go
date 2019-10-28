@@ -80,3 +80,27 @@ func (o *GetTeacherNotFound) WriteResponse(rw http.ResponseWriter, producer runt
 
 	rw.WriteHeader(404)
 }
+
+// GetTeacherInternalServerErrorCode is the HTTP code returned for type GetTeacherInternalServerError
+const GetTeacherInternalServerErrorCode int = 500
+
+/*GetTeacherInternalServerError internal server error
+
+swagger:response getTeacherInternalServerError
+*/
+type GetTeacherInternalServerError struct {
+}
+
+// NewGetTeacherInternalServerError creates GetTeacherInternalServerError with default headers values
+func NewGetTeacherInternalServerError() *GetTeacherInternalServerError {
+
+	return &GetTeacherInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *GetTeacherInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
+
+	rw.WriteHeader(500)
+}

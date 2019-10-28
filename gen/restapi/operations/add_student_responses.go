@@ -80,3 +80,27 @@ func (o *AddStudentConflict) WriteResponse(rw http.ResponseWriter, producer runt
 
 	rw.WriteHeader(409)
 }
+
+// AddStudentInternalServerErrorCode is the HTTP code returned for type AddStudentInternalServerError
+const AddStudentInternalServerErrorCode int = 500
+
+/*AddStudentInternalServerError internal server error
+
+swagger:response addStudentInternalServerError
+*/
+type AddStudentInternalServerError struct {
+}
+
+// NewAddStudentInternalServerError creates AddStudentInternalServerError with default headers values
+func NewAddStudentInternalServerError() *AddStudentInternalServerError {
+
+	return &AddStudentInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *AddStudentInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
+
+	rw.WriteHeader(500)
+}

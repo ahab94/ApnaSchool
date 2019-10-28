@@ -4,6 +4,8 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 
 	runtime "github.com/ahab94/ApnaSchool"
+	domainErr "github.com/ahab94/ApnaSchool/errors"
+	"github.com/ahab94/ApnaSchool/gen/models"
 	"github.com/ahab94/ApnaSchool/gen/restapi/operations"
 )
 
@@ -18,9 +20,21 @@ type getStudent struct {
 
 // Handle the get student request
 func (d *getStudent) Handle(params operations.GetStudentParams) middleware.Responder {
-	_, err := d.rt.Service().RetrieveStudent(params.ID)
+	student, err := d.rt.Service().RetrieveStudent(params.ID)
 	if err != nil {
-		return operations.NewGetStudentNotFound()
+		switch apiErr := err.(*domainErr.APIError); {
+		case apiErr.IsError(domainErr.NotFound):
+			return operations.NewGetStudentNotFound()
+		default:
+			return operations.NewGetStudentInternalServerError()
+		}
 	}
-	return operations.NewGetStudentOK()
+
+	return operations.NewGetStudentOK().WithPayload(&models.Student{
+		Age:        student.Age,
+		Department: student.Department,
+		ID:         student.ID,
+		Name:       student.Name,
+		Grade:      int64(student.Grade),
+	})
 }

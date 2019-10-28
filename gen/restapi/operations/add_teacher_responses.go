@@ -80,3 +80,27 @@ func (o *AddTeacherConflict) WriteResponse(rw http.ResponseWriter, producer runt
 
 	rw.WriteHeader(409)
 }
+
+// AddTeacherInternalServerErrorCode is the HTTP code returned for type AddTeacherInternalServerError
+const AddTeacherInternalServerErrorCode int = 500
+
+/*AddTeacherInternalServerError internal server error
+
+swagger:response addTeacherInternalServerError
+*/
+type AddTeacherInternalServerError struct {
+}
+
+// NewAddTeacherInternalServerError creates AddTeacherInternalServerError with default headers values
+func NewAddTeacherInternalServerError() *AddTeacherInternalServerError {
+
+	return &AddTeacherInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *AddTeacherInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
+
+	rw.WriteHeader(500)
+}

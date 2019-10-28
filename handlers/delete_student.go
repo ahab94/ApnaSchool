@@ -21,5 +21,5 @@ func (d *deleteStudent) Handle(params operations.DeleteStudentParams) middleware
 	if err := d.rt.Service().DeleteStudent(params.ID); err != nil {
 		return operations.NewDeleteStudentNotFound()
 	}
-	return operations.NewDeleteStudentNotFound()
+	return operations.NewDeleteStudentNoContent()
 }

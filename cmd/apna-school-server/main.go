@@ -6,9 +6,10 @@ import (
 	loads "github.com/go-openapi/loads"
 	"github.com/spf13/viper"
 
+	runtime "github.com/ahab94/ApnaSchool"
 	"github.com/ahab94/ApnaSchool/config"
 	"github.com/ahab94/ApnaSchool/gen/restapi"
-	"github.com/ahab94/ApnaSchool/gen/restapi/operations"
+	"github.com/ahab94/ApnaSchool/handlers"
 )
 
 func main() {
@@ -17,7 +18,12 @@ func main() {
 		panic(err)
 	}
 
-	api := operations.NewApnaSchoolAPI(swaggerSpec)
+	rt, err := runtime.NewRuntime()
+	if err != nil {
+		panic(err)
+	}
+
+	api := handlers.NewHandler(rt, swaggerSpec)
 	server := restapi.NewServer(api)
 	defer server.Shutdown()
 

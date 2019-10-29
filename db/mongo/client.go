@@ -13,6 +13,7 @@ import (
 
 	"github.com/ahab94/ApnaSchool/config"
 	"github.com/ahab94/ApnaSchool/db"
+	domainErr "github.com/ahab94/ApnaSchool/errors"
 	"github.com/ahab94/ApnaSchool/models"
 )
 
@@ -59,9 +60,11 @@ func (c *client) GetStudent(id string) (*models.Student, error) {
 	var stu *models.Student
 	collection := c.conn.Database(viper.GetString(config.DbName)).Collection(stuCollection)
 	if err := collection.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&stu); err != nil {
-		return nil, errors.Wrap(err, "failed to get student")
+		if err == mongo.ErrNoDocuments {
+			return nil, domainErr.NewAPIError(domainErr.NotFound, fmt.Sprintf("student: %s not found", id))
+		}
+		return nil, err
 	}
-
 	return stu, nil
 }
 
@@ -101,9 +104,11 @@ func (c *client) GetTeacher(id string) (*models.Teacher, error) {
 	var tch *models.Teacher
 	collection := c.conn.Database(viper.GetString(config.DbName)).Collection(tchCollection)
 	if err := collection.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&tch); err != nil {
-		return nil, errors.Wrap(err, "failed to get teacher")
+		if err == mongo.ErrNoDocuments {
+			return nil, domainErr.NewAPIError(domainErr.NotFound, fmt.Sprintf("teacher: %s not found", id))
+		}
+		return nil, err
 	}
-
 	return tch, nil
 }
 

@@ -36,6 +36,12 @@ func (o *AddStudentReader) ReadResponse(response runtime.ClientResponse, consume
 			return nil, err
 		}
 		return nil, result
+	case 500:
+		result := NewAddStudentInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
 
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
@@ -92,6 +98,27 @@ func (o *AddStudentConflict) Error() string {
 }
 
 func (o *AddStudentConflict) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewAddStudentInternalServerError creates a AddStudentInternalServerError with default headers values
+func NewAddStudentInternalServerError() *AddStudentInternalServerError {
+	return &AddStudentInternalServerError{}
+}
+
+/*AddStudentInternalServerError handles this case with default header values.
+
+internal server error
+*/
+type AddStudentInternalServerError struct {
+}
+
+func (o *AddStudentInternalServerError) Error() string {
+	return fmt.Sprintf("[POST /student][%d] addStudentInternalServerError ", 500)
+}
+
+func (o *AddStudentInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	return nil
 }

@@ -58,3 +58,27 @@ func (o *DeleteTeacherNotFound) WriteResponse(rw http.ResponseWriter, producer r
 
 	rw.WriteHeader(404)
 }
+
+// DeleteTeacherInternalServerErrorCode is the HTTP code returned for type DeleteTeacherInternalServerError
+const DeleteTeacherInternalServerErrorCode int = 500
+
+/*DeleteTeacherInternalServerError internal server error
+
+swagger:response deleteTeacherInternalServerError
+*/
+type DeleteTeacherInternalServerError struct {
+}
+
+// NewDeleteTeacherInternalServerError creates DeleteTeacherInternalServerError with default headers values
+func NewDeleteTeacherInternalServerError() *DeleteTeacherInternalServerError {
+
+	return &DeleteTeacherInternalServerError{}
+}
+
+// WriteResponse to the client
+func (o *DeleteTeacherInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
+
+	rw.WriteHeader(500)
+}

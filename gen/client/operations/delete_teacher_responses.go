@@ -33,6 +33,12 @@ func (o *DeleteTeacherReader) ReadResponse(response runtime.ClientResponse, cons
 			return nil, err
 		}
 		return nil, result
+	case 500:
+		result := NewDeleteTeacherInternalServerError()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return nil, result
 
 	default:
 		return nil, runtime.NewAPIError("unknown error", response, response.Code())
@@ -77,6 +83,27 @@ func (o *DeleteTeacherNotFound) Error() string {
 }
 
 func (o *DeleteTeacherNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
+}
+
+// NewDeleteTeacherInternalServerError creates a DeleteTeacherInternalServerError with default headers values
+func NewDeleteTeacherInternalServerError() *DeleteTeacherInternalServerError {
+	return &DeleteTeacherInternalServerError{}
+}
+
+/*DeleteTeacherInternalServerError handles this case with default header values.
+
+internal server error
+*/
+type DeleteTeacherInternalServerError struct {
+}
+
+func (o *DeleteTeacherInternalServerError) Error() string {
+	return fmt.Sprintf("[DELETE /teacher/{ID}][%d] deleteTeacherInternalServerError ", 500)
+}
+
+func (o *DeleteTeacherInternalServerError) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	return nil
 }

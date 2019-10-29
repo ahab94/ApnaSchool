@@ -4,6 +4,7 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 
 	runtime "github.com/ahab94/ApnaSchool"
+	domainErr "github.com/ahab94/ApnaSchool/errors"
 	"github.com/ahab94/ApnaSchool/gen/restapi/operations"
 )
 
@@ -19,7 +20,12 @@ type deleteStudent struct {
 // Handle the delete entry request
 func (d *deleteStudent) Handle(params operations.DeleteStudentParams) middleware.Responder {
 	if err := d.rt.Service().DeleteStudent(params.ID); err != nil {
-		return operations.NewDeleteStudentNotFound()
+			switch apiErr := err.(*domainErr.APIError); {
+			case apiErr.IsError(domainErr.NotFound):
+				return operations.NewGetStudentNotFound()
+			default:
+				return operations.NewDeleteStudentInternalServerError()
+			}
 	}
 	return operations.NewDeleteStudentNoContent()
 }

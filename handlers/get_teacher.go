@@ -28,5 +28,6 @@ func (d *getTeacher) Handle(params operations.GetTeacherParams) middleware.Respo
 		ID:         teacher.ID,
 		Name:       teacher.Name,
 		Salary:     int64(teacher.Salary),
+		Password:   teacher.Password,
 	})
 }

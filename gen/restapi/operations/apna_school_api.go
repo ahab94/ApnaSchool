@@ -37,6 +37,12 @@ func NewApnaSchoolAPI(spec *loads.Document) *ApnaSchoolAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
+		SignUpStudentHandler: SignUpStudentHandlerFunc(func(params SignUpStudentParams) middleware.Responder {
+			return middleware.NotImplemented("operation SignUpStudent has not yet been implemented")
+		}),
+		SignUpTeacherHandler: SignUpTeacherHandlerFunc(func(params SignUpTeacherParams) middleware.Responder {
+			return middleware.NotImplemented("operation SignUpTeacher has not yet been implemented")
+		}),
 		AddStudentHandler: AddStudentHandlerFunc(func(params AddStudentParams) middleware.Responder {
 			return middleware.NotImplemented("operation AddStudent has not yet been implemented")
 		}),
@@ -92,6 +98,10 @@ type ApnaSchoolAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
+	// SignUpStudentHandler sets the operation handler for the sign up student operation
+	SignUpStudentHandler SignUpStudentHandler
+	// SignUpTeacherHandler sets the operation handler for the sign up teacher operation
+	SignUpTeacherHandler SignUpTeacherHandler
 	// AddStudentHandler sets the operation handler for the add student operation
 	AddStudentHandler AddStudentHandler
 	// AddTeacherHandler sets the operation handler for the add teacher operation
@@ -169,6 +179,14 @@ func (o *ApnaSchoolAPI) Validate() error {
 
 	if o.JSONProducer == nil {
 		unregistered = append(unregistered, "JSONProducer")
+	}
+
+	if o.SignUpStudentHandler == nil {
+		unregistered = append(unregistered, "SignUpStudentHandler")
+	}
+
+	if o.SignUpTeacherHandler == nil {
+		unregistered = append(unregistered, "SignUpTeacherHandler")
 	}
 
 	if o.AddStudentHandler == nil {
@@ -300,6 +318,16 @@ func (o *ApnaSchoolAPI) initHandlerCache() {
 	if o.handlers == nil {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/student/signup"] = NewSignUpStudent(o.context, o.SignUpStudentHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/teacher/signup"] = NewSignUpTeacher(o.context, o.SignUpTeacherHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)

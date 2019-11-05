@@ -4,6 +4,11 @@ import (
 	"github.com/ahab94/ApnaSchool/models"
 )
 
+// SignUpStudent signs up the student and make its account
+func (s *Service) SignUpStudent(student *models.Student) (string, error) {
+	return s.db.AddStudent(student)
+}
+
 // AddStudent adds student into database
 func (s *Service) AddStudent(student *models.Student) (string, error) {
 	return s.db.AddStudent(student)

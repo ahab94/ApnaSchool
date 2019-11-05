@@ -27,6 +27,9 @@ type Teacher struct {
 	// name
 	Name string `json:"Name,omitempty"`
 
+	// password
+	Password string `json:"Password,omitempty"`
+
 	// salary
 	Salary int64 `json:"Salary,omitempty"`
 }

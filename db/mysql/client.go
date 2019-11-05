@@ -50,6 +50,22 @@ func NewClient(conf db.Option) (db.DataStore, error) {
 	return &client{db: cli}, nil
 }
 
+func (c *client) SignUpStudent(student *models.Student) (string, error) {
+	if student.ID != "" {
+		return "", errors.New("id is not empty")
+	}
+	student.ID = uuid.NewV4().String()
+
+	names := student.Names()
+	if _, err := c.db.NamedExec(fmt.Sprintf(`INSERT INTO %s (%s) VALUES(%s)`, studentTableName, strings.Join(names, ","), strings.Join(mkPlaceHolder(names, ":", func(name, prefix string) string {
+		return prefix + name
+	}), ",")), student); err != nil {
+		return "", errors.Wrap(err, "failed to add student")
+	}
+
+	return "", nil
+}
+
 func (c *client) AddStudent(student *models.Student) (string, error) {
 	if student.ID != "" {
 		return "", errors.New("id is not empty")
@@ -92,6 +108,22 @@ func (c *client) DeleteStudent(id string) error {
 	}
 
 	return nil
+}
+
+func (c *client) SignUpTeacher(teacher *models.Teacher) (string, error) {
+	if teacher.ID != "" {
+		return "", errors.New("id is not empty")
+	}
+	teacher.ID = uuid.NewV4().String()
+
+	names := teacher.Names()
+	if _, err := c.db.NamedExec(fmt.Sprintf(`INSERT INTO %s (%s) VALUES(%s)`, teacherTableName, strings.Join(names, ","), strings.Join(mkPlaceHolder(names, ":", func(name, prefix string) string {
+		return prefix + name
+	}), ",")), teacher); err != nil {
+		return "", errors.Wrap(err, "failed to add teacher")
+	}
+
+	return "", nil
 }
 
 func (c *client) AddTeacher(teacher *models.Teacher) (string, error) {

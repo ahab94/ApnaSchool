@@ -24,6 +24,7 @@ func (d *addStudent) Handle(params operations.AddStudentParams) middleware.Respo
 		Age:        params.Student.Age,
 		Department: params.Student.Department,
 		Grade:      int(params.Student.Grade),
+		Password:   params.Student.Password,
 	}
 
 	id, err := d.rt.Service().AddStudent(&student)

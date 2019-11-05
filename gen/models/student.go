@@ -29,6 +29,9 @@ type Student struct {
 
 	// name
 	Name string `json:"Name,omitempty"`
+
+	// password
+	Password string `json:"Password,omitempty"`
 }
 
 // Validate validates this student

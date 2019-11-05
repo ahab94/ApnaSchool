@@ -11,6 +11,7 @@ type Student struct {
 	Age        string `json:"age" structs:"age" bson:"age" db:"age"`
 	Department string `json:"department" structs:"department" bson:"department" db:"department"`
 	Grade      int    `json:"grade" structs:"grade" bson:"grade" db:"grade"`
+	Password   string `json:"password" structs:"password" bson:"password" db:"password"`
 }
 
 // Map converts structs to a map representation

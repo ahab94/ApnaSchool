@@ -12,6 +12,7 @@ func TestTeacher_Map(t1 *testing.T) {
 		Age        string
 		Department string
 		Salary     int
+		Password   string
 	}
 	tests := []struct {
 		name   string
@@ -26,6 +27,7 @@ func TestTeacher_Map(t1 *testing.T) {
 				Age:        "23",
 				Department: "IT",
 				Salary:     20000,
+				Password:   "mypass",
 			},
 			want: map[string]interface{}{
 				"id":         "231",
@@ -33,6 +35,7 @@ func TestTeacher_Map(t1 *testing.T) {
 				"age":        "23",
 				"department": "IT",
 				"salary":     20000,
+				"password":   "mypass",
 			},
 		},
 		{
@@ -48,6 +51,7 @@ func TestTeacher_Map(t1 *testing.T) {
 				"age":        "23",
 				"department": "IT",
 				"salary":     0,
+				"password":   "mypass",
 			},
 		},
 	}
@@ -60,6 +64,7 @@ func TestTeacher_Map(t1 *testing.T) {
 				Age:        tt.fields.Age,
 				Department: tt.fields.Department,
 				Salary:     tt.fields.Salary,
+				Password:   tt.fields.Password,
 			}
 			if got := t.Map(); !reflect.DeepEqual(got, tt.want) {
 				t1.Errorf("Map() = %v, want %v", got, tt.want)
@@ -75,6 +80,7 @@ func TestTeacher_Names(t1 *testing.T) {
 		Age        string
 		Department string
 		Salary     int
+		Password   string
 	}
 	tests := []struct {
 		name   string
@@ -89,8 +95,9 @@ func TestTeacher_Names(t1 *testing.T) {
 				Age:        "23",
 				Department: "CS",
 				Salary:     20000,
+				Password:   "mypass",
 			},
-			want: []string{"id", "name", "age", "department", "salary"},
+			want: []string{"id", "name", "age", "department", "salary", "password"},
 		},
 	}
 	for _, tt := range tests {
@@ -101,6 +108,7 @@ func TestTeacher_Names(t1 *testing.T) {
 				Age:        tt.fields.Age,
 				Department: tt.fields.Department,
 				Salary:     tt.fields.Salary,
+				Password:   tt.fields.Password,
 			}
 			if got := t.Names(); !reflect.DeepEqual(got, tt.want) {
 				t1.Errorf("Names() = %v, want %v", got, tt.want)

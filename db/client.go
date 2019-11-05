@@ -8,10 +8,12 @@ import (
 
 // DataStore is an interface for query ops
 type DataStore interface {
+	SignUpStudent(student *models.Student) (string, error)
 	AddStudent(student *models.Student) (string, error)
 	GetStudent(id string) (*models.Student, error)
 	DeleteStudent(id string) error
 	UpdateStudent(student *models.Student) error
+	SignUpTeacher(teacher *models.Teacher) (string, error)
 	AddTeacher(teacher *models.Teacher) (string, error)
 	GetTeacher(id string) (*models.Teacher, error)
 	DeleteTeacher(id string) error

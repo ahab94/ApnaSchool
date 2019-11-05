@@ -27,6 +27,74 @@ type Client struct {
 }
 
 /*
+SignUpStudent sign up student API
+*/
+func (a *Client) SignUpStudent(params *SignUpStudentParams) (*SignUpStudentCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSignUpStudentParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "SignUpStudent",
+		Method:             "POST",
+		PathPattern:        "/student/signup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &SignUpStudentReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SignUpStudentCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for SignUpStudent: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+SignUpTeacher sign up teacher API
+*/
+func (a *Client) SignUpTeacher(params *SignUpTeacherParams) (*SignUpTeacherCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewSignUpTeacherParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "SignUpTeacher",
+		Method:             "POST",
+		PathPattern:        "/teacher/signup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &SignUpTeacherReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*SignUpTeacherCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for SignUpTeacher: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 AddStudent add student API
 */
 func (a *Client) AddStudent(params *AddStudentParams) (*AddStudentCreated, error) {

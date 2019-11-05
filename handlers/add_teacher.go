@@ -24,6 +24,7 @@ func (d *addTeacher) Handle(params operations.AddTeacherParams) middleware.Respo
 		Age:        params.Teacher.Age,
 		Department: params.Teacher.Department,
 		Salary:     int(params.Teacher.Salary),
+		Password:   params.Teacher.Password,
 	})
 	if err != nil {
 		log().Errorf("failed to add teacher: %s", err)
